@@ -5,8 +5,8 @@ const bcrypt = require("bcrypt");
 //create user
 const signUP = async (req, res, next) => {
   try {
-    const { name, email, password, age } = req.body;
-    console.log(name, email, password, age);
+    const { name, email, password } = req.body;
+    console.log(name, email, password);
 
     //All fields required is handled by errorMiddleware
     // if (!name || !email || !password || !age) {
@@ -18,7 +18,6 @@ const signUP = async (req, res, next) => {
       name,
       email,
       password,
-      age,
     });
     await newUser.save();
 
@@ -62,10 +61,10 @@ const updateUserById = async (req, res, next) => {
     if (!user) {
       return res.status(404).json({ success: false, message: "User not found" });
     }
-    const { name, email, password, age } = req.body;
+    const { name, email, password } = req.body;
     const updatedUser = await User.findByIdAndUpdate(
       userId,
-      { name, email, age }, //Only allows specific fields to be updated // Passwords can not be updated through this method,
+      { name, email }, //Only allows specific fields to be updated // Passwords can not be updated through this method,
       //as the userSchema.pre('save') wont run with findByIdAndUpdate method... so the password won't be encrypted
       //We can implement the hashing here.. but as per chatgpt it is not necessary.... changing password should be a seperate logic.. with forgot password...
       { new: true, runValidators: true } //returns the new values after update and validation check will be done
@@ -85,8 +84,8 @@ const changeUserDetailsById = async (req, res, next) => {
     if (!user) {
       return res.status(404).json({ success: false, message: "User not found" });
     }
-    const { name, email, password, age } = req.body;
-    if (!name || !email || !password || !age) {
+    const { name, email, password } = req.body;
+    if (!name || !email || !password) {
       return res.status(400).json({ success: false, message: "All fields are required for PUT Operation" });
     }
 
@@ -95,7 +94,7 @@ const changeUserDetailsById = async (req, res, next) => {
 
     const updatedUser = await User.findByIdAndUpdate(
       userId,
-      { name, email, password: hashPassword, age },
+      { name, email, password: hashPassword },
       { new: true, runValidators: true, overwrite: true }
     );
     return res.status(200).json({ success: true, data: { Changed_User: updatedUser } });
