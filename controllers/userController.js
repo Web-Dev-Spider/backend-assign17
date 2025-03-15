@@ -1,31 +1,12 @@
 const { default: mongoose } = require("mongoose");
 const User = require("../models/userModel");
 const bcrypt = require("bcrypt");
+const jwt = require("jsonwebtoken");
+
+const JWT_SECRET = process.env.JWT_SECRET;
+const JWT_EXPIRES_IN = process.env.EXPIRES_IN;
 
 //create user
-const signUP = async (req, res, next) => {
-  try {
-    const { name, email, password } = req.body;
-    console.log(name, email, password);
-
-    //All fields required is handled by errorMiddleware
-    // if (!name || !email || !password || !age) {
-    //   const error = new Error("All fields are required");
-    //   error.status = 404;
-    //   throw error;
-    // }
-    const newUser = new User({
-      name,
-      email,
-      password,
-    });
-    await newUser.save();
-
-    return res.status(201).json({ message: "User added successfully", user: newUser });
-  } catch (error) {
-    next(error);
-  }
-};
 
 //Get all users
 const getUsers = async (req, res, next) => {
@@ -114,4 +95,4 @@ const deleteUserById = async (req, res, next) => {
     next(error);
   }
 };
-module.exports = { signUP, getUsers, getUserById, updateUserById, changeUserDetailsById, deleteUserById };
+module.exports = { getUsers, getUserById, updateUserById, changeUserDetailsById, deleteUserById };

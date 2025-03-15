@@ -3,6 +3,7 @@ const express = require("express");
 const connectToDB = require("./database/userDB");
 const userRouter = require("./routes/userRouter");
 const errorMiddleware = require("./middlewares/errorMiddleware");
+const authRouter = require("./routes/authRouter");
 
 const app = express();
 
@@ -11,7 +12,8 @@ const ENV = process.env.ENV;
 
 app.use(express.json());
 
-app.use("/api", userRouter);
+app.use("/api/auth", authRouter);
+app.use("/api/users", userRouter);
 
 app.use(errorMiddleware);
 
