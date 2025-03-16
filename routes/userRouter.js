@@ -13,8 +13,8 @@ const userRouter = express.Router();
 
 userRouter.get("/all-users", getUsers);
 userRouter.get("/:userId", authorize, getUserById);
-userRouter.patch("/:userId", updateUserById);
-userRouter.put("/:userId", changeUserDetailsById);
-userRouter.delete("/:userId", deleteUserById);
+userRouter.patch("/:userId", authorize, updateUserById);
+userRouter.put("/:userId", authorize, changeUserDetailsById);
+userRouter.delete("/:userId", authorize, deleteUserById);
 
 module.exports = userRouter;

@@ -1,8 +1,8 @@
 const errorMiddleware = (err, req, res, next) => {
   try {
     console.log("in the error middleware");
-    console.log(err.name);
-    console.log(err);
+    // console.log(err.name);
+    // console.log(err);
     let error = { ...err };
     error.message = err.message;
 
