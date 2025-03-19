@@ -95,4 +95,26 @@ const deleteUserById = async (req, res, next) => {
     next(error);
   }
 };
-module.exports = { getUsers, getUserById, updateUserById, changeUserDetailsById, deleteUserById };
+
+const showDashboard = async (req, res, next) => {
+  try {
+    console.log("req.user received on showDashboard", req.user);
+    const { userId } = req.user;
+    console.log(userId);
+    const user = await User.findById(userId);
+    if (!user) {
+      return res.status(401).json({ message: "Something went wrong" });
+    }
+    // console.log("User found at showDashboard()", user);
+    const { token } = req.cookies;
+    // console.log("token received on showDashboard", token);
+    const tokenDecoded = jwt.decode(token);
+
+    res.status(200).json({ message: "Showing dashboard", user });
+    // console.log(req);
+  } catch (error) {
+    console.log("Error at showDashboard", error);
+    next(error);
+  }
+};
+module.exports = { getUsers, getUserById, updateUserById, changeUserDetailsById, deleteUserById, showDashboard };
