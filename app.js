@@ -20,15 +20,15 @@ app.use(
   })
 );
 
-app.use("/getserver", (req, res) => {
-  res.status(200).json({ message: "Server hitted" });
-});
 app.use(express.json());
 app.use(cookieParser());
 
 app.use("/api/auth", authRouter);
 app.use("/api/users", userRouter);
 
+app.use("/", (req, res) => {
+  res.status(200).json({ message: "Server hitted from Vercel" });
+});
 app.use(errorMiddleware);
 
 app.get("/", (req, res) => {
