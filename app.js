@@ -19,6 +19,10 @@ app.use(
     credentials: true,
   })
 );
+
+app.use("/getserver", (req, res) => {
+  res.status(200).json({ message: "Server hitted" });
+});
 app.use(express.json());
 app.use(cookieParser());
 
